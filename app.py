@@ -188,7 +188,7 @@ def userbloodonationbackend():
       cursor.execute( 'INSERT INTO userblooddonation VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
           (userid,name,dob,blood_group,ph_no,take_meds,address,donated,currdate))
       mysql.commit()
-      return render_template('user/user_home.html',user=user)
+      return render_template('user/user_home.html' )
   
 
 
