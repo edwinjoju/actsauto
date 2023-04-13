@@ -1,0 +1,223 @@
+.layout-main{
+        background-color: rgba(0, 34, 128, 0);
+        width: 95%;
+        margin-left: 50px;
+        margin-top: 20px;
+        padding: 50px 0px 50px 50px;
+}
+
+.dash-cards{
+        width: 100%;
+        background-color: rgba(0, 128, 0, 0);
+        display:grid;
+        grid-template-columns: repeat(auto-fit,minmax(200px, 400px));
+        grid-gap: 80px;
+}
+
+.card{
+        width: 400px;
+        height: 300px;
+        background-image: linear-gradient(140deg, rgb(255, 255, 255),rgb(255, 255, 255));
+        padding: 20px 0px 0px 20px;
+        border-radius: 7px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.144);
+}
+.layout-head{
+        margin-left: -20px;
+        background-color: rgba(127, 255, 212, 0);
+        background-image: url(attend.png);
+        background-size: 50px;
+        background-repeat: no-repeat;
+        background-position: 10px;
+        color: rgba(0, 0, 0, 0.774);
+        font-size: 1.8rem;
+}
+
+button.del a{
+        text-decoration: none;
+      }
+      
+      button.del{
+        margin: auto;
+        display: block;
+        background-color: rgb(102, 75, 199);
+        border: none;
+        padding: 10px 30px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bolder;
+        font-size: 1rem;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.534);
+        cursor: pointer;
+      }
+      button.del:hover{
+        background-color: rgb(85, 54, 196);
+      }
+      button.del:active{
+        background-color: rgb(85, 54, 196);
+        box-shadow: none;
+      }
+
+
+
+#active-side-menu{
+        background-color: #2f00ff3d;
+        border-radius: 6px;
+        width: 228px;
+        margin-left: 16px;
+        font-weight: 500;
+        color: rgb(117, 93, 255);
+}
+
+      
+
+
+
+
+@media (max-width: 1765px){
+        .dash-cards{
+                grid-template-columns: repeat(auto-fit,minmax(100px, 360px));
+        }
+}
+
+@media (max-width: 1705px){
+        .layout-main{
+                margin-left: 0%;
+        }
+
+        .layout-head{
+                font-size: 1.5rem;
+                background-size: 45px;
+        }
+}
+
+
+@media (max-width: 1635px){
+        .dash-cards{
+                grid-template-columns: repeat(3,minmax(200px, 500px));
+        }
+        .card{
+                width: 350px;
+                height: 280px;
+        }
+}
+
+
+@media (max-width: 1440px){
+        .card{
+                width: 340px;
+                height: 250px;
+        }
+        .dash-cards{
+                margin-left: -15px;
+                grid-gap: 50px;
+        }
+}
+
+
+@media (max-width: 1399.98px){
+        .dash-cards{
+                grid-template-columns: repeat(2,minmax(200px, 500px));
+        }
+        .card{
+                width: 450px;
+        }
+}
+
+@media (max-width: 1260px){
+        .card{
+                width: 400px;
+        }
+}
+
+
+@media (max-width: 1199.98px){
+        .dash-cards{
+                grid-template-columns: repeat(2,minmax(200px, 600px));
+        }
+        .card{
+              width: 480px;
+        }
+}
+
+@media (max-width: 1060px){
+        .card{
+                width: 440px;
+          }
+}
+
+@media (max-width: 991.98px){
+        .card{
+                width: 390px;
+          }
+}
+
+@media (max-width: 865px){
+        .card{
+                width: 330px;
+                height: 230px;
+          }
+}
+
+@media (max-width: 767.98px){
+        .card{
+                width: 300px;
+                height: 210px;
+          }
+}
+
+@media (max-width: 685px){
+        .card{
+                width: 290px;
+                height: 200px;
+          }
+}
+
+@media (max-width: 655px){
+        .dash-cards{
+                grid-template-columns: repeat(1,minmax(200px, 600px));
+        }
+        .card{
+                margin-left: 30px;
+                width: 95%;
+                height: 250px;
+          }
+}
+
+@media (max-width: 495px){
+        .layout-head{
+                font-size: 1.4rem;
+                background-size: 40px;
+        }
+        .card{
+                margin-left: 20px;
+                border-radius: 8px;
+          }
+}
+
+@media (max-width: 390px){
+        .layout-head{
+                font-size: 1.1rem;
+                background-size: 32px;
+        }
+        .card{
+                margin-left: 20px;
+          }
+}
+
+@media (max-width: 290px){
+        .layout-head{
+                background-image: none;
+                margin-left: -30px;
+                font-size: 0.9rem;
+                background-size: 25px;
+        }
+        .card{
+                margin-left: 10px;
+                width: 85%;
+                height: 200px;
+          }
+}
+
+
+
