@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,7 +11,7 @@
 
   <!-- Favicons -->
   <link href="https://see.fontimg.com/api/renderfont4/mLO6P/eyJyIjoiZnMiLCJoIjo4MSwidyI6MTI1MCwiZnMiOjY1LCJmZ2MiOiIjMDAwMDAwIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/QUNUUyA/hotsnow-free-vertion-regular.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -75,20 +75,20 @@
                         <div class="card mt-2 mx-auto p-4 bg-light">
                             <div class="card-body bg-light">
                             <div class = "container">
-                                <form id="contact-form" role="form" method="POST" action="{{url_for('userbloodonationbackend') }}">
+                                <form id="contact-form" role="form" method="POST" action="{{url_for('userbloodrequestbackend') }}">
                                     <div class="controls">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="form_name">Full Name</label>
+                                                <label for="form_name">Patient name</label>
                                                 <input id="form_name" type="text" name="name" class="form-control" placeholder="Fullname *" required="required" data-error="Firstname is required.">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="form_lastname">Enter date of birth</label>
-                                                <input id="form_lastname" type="date" name="dob" class="form-control"   required="required" data-error="Lastname is required.">
+                                                <label for="form_lastname">Case of blood</label>
+                                                <input id="form_lastname" type="text" name="case" class="form-control"   required="required" data-error="Case is required is required.">
                                              </div>
                                         </div>
                                     </div>
@@ -96,55 +96,55 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="form_need">Are you taking medicines*</label>
-                                        <select id="form_need" name="take_meds" class="form-control" required="required" data-error="Please specify your need.">
-                                            <option value="" selected disabled>--Select Your option--</option>
-                                            <option >Yes</option>
-                                            <option >No</option>
-                                        </select>
+                                                <label for="form_lastname">Location</label>
+                                                <input id="form_lastname" type="text" name="location" class="form-control"   required="required" data-error="Location is required is required.">
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="form_need">Donated within one month</label>
-                                        <select id="form_need" name="donated" class="form-control" required="required" data-error="Please specify your need.">
-                                            <option value="" selected disabled>--Select Your option--</option>
-                                            <option >Yes</option>
-                                            <option >No</option>
-                                        </select>
+                                                <label for="form_lastname">Hospital</label>
+                                                <input id="form_lastname" type="text" name="hospital" class="form-control"   required="required" data-error="Hospital is required is required.">
                                     </div>
                                 </div>
+                            </div>
 
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="form_need">Enter your blood group</label>
-                                        <select id="form_need" name="blood_group" class="form-control" required="required" data-error="Please specify your need.">
-                                            <option value="" selected disabled>--Select Your blood group--</option>
-                                            <option >A+</option>
-                                            <option >A-</option>
-                                            <option >B+</option>
-                                            <option >B-</option>
-                                            <option >O+</option>
-                                            <option >O-</option>
-                                            <option >AB+</option>
-                                            <option >AB-</option>
-                                        </select>
+                                <div class="form-group">
+                                                <label for="form_lastname">Blood Group</label>
+                                                <input id="form_lastname" type="text" name="blood_group" class="form-control"   required="required" data-error="Blood Group is required is required.">
                                     </div>
                                 </div>
 
                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="form_email">Phone </label>
-                                        <input id="form_email" type="text" name="ph_no" class="form-control" placeholder="Please enter your phone number*" required="required" data-error="Valid email is required.">
+                                        <label for="form_email">Date of Usage</label>
+                                        <input id="form_email" type="date" name="date" class="form-control"  required="required" data-error="Valid email is required.">
                                     </div>
                                 </div>
-                               
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                                <label for="form_lastname">Bystander Name: </label>
+                                                <input id="form_lastname" type="text" name="bystander_name" class="form-control"   required="required" data-error="Bystander Name is required is required.">
+                                    </div>
+                                </div>
+
+                               <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_email">Bystander Phone No:</label>
+                                        <input id="form_email" type="text" name="bystander_ph" class="form-control"  required="required" data-error="Valid email is required.">
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="form_message">Address</label>
-                                        <textarea id="form_message" name="address" class="form-control" placeholder="Write your message here." rows="4" required="required" data-error="Please, leave us a message."></textarea>
+                                        <label for="form_message">Other details</label>
+                                        <textarea id="form_message" name="other" class="form-control" placeholder="Any other important details" rows="4" required="required" data-error="Please, leave us a message."></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

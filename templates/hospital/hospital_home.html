@@ -51,7 +51,7 @@
       <nav id="navbar" class="navbar">
         <ul>
         <li><a class="nav-link scrollto" href="#">Home</a></li>
-        <li><a class="nav-link scrollto" href="static/logout.php">Logout</a></li>
+        <li><a class="nav-link scrollto" href="{{url_for('home') }}">Logout</a></li>
 
            <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -92,7 +92,7 @@
                  
                 <i class="bx bx-file"></i>
               </div>
-              <p><a href="bp_hosp.php" class="btn btn-primary btn-lg col-md-12">Request Blood Users </a></p>
+              <p><a href="{{url_for('hospitalbloodrequest') }}" class="btn btn-primary btn-lg col-md-12">Request Blood Users </a></p>
             </div>
           </div>
 

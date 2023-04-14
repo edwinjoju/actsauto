@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Hospital-LOGIN</title>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="static/files-login/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="static/files-login/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="static/files-login/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="static/files-login/perfect-scrollbar.css" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="static/files-login/page-auth.css" />
+    <!-- Helpers -->
+    <script src="static/files-login/helpers.js"></script>
+
+    <!--! Template customizer & Theme config static/files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="static/files-login/config.js"></script>
+  </head>
+
+  <body>
+    <!-- Content -->
+
+   
+      <div class="authentication-wrapper authentication-basic container-p-y">
+ 
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="static/login-options.php" class="app-brand-link gap-2">
+                  
+                 
+                  <span class="app-brand-text demo text-body fw-bolder" class="mb-2">Acts Auto</span>
+
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2"><b>Hospital Registration</b></h4>
+              <p class="mb-4">Enter the details of the Hospital using the Hospital ID &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+
+              <form id="formAuthentication" class="mb-3" action="{{ url_for('hospitalregisterbackend') }}" method="POST">
+
+              <div class="mb-3">
+                  <label for="hospital_id" class="form-label">Hospital ID</label>
+                  <input type="text" class="form-control" id="hospital_id" name="hospital_id"
+                    placeholder="Enter Hospital ID" autofocus required>
+                </div>
+
+              <div class="mb-3">
+                  <label for="hname" class="form-label">Hospital Name</label>
+                  <input type="text" class="form-control" id="hname" name="hname"
+                    placeholder="Hospital Name" autofocus required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="hphone" class="form-label">Hospital Phone</label>
+                  <input type="text" class="form-control" id="hphone" name="hphone"
+                    placeholder="Hospital Phone" autofocus required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="hospital_location" class="form-label">Hospital Location</label>
+                  <input type="text" class="form-control" id="hospital_location" name="hospital_location"
+                    placeholder="Enter Hospital Location" autofocus required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="hospital_latitude" class="form-label">Hospital Latitude</label>
+                  <input type="text" class="form-control" id="hospital_latitude" name="hospital_latitude"
+                    placeholder="Enter Hospital Latitude" autofocus required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="hospital_longitude" class="form-label">Hospital Longitude</label>
+                  <input type="text" class="form-control" id="hospital_longitude" name="hospital_longitude"
+                    placeholder="Enter Hospital Longitude" autofocus required>
+                </div>
+
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Password</label>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input type="password" id="password" class="form-control" name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password" required>
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <button class="btn btn-danger" type="submit">Sign in</button>
+                </div>
+                <span class="reg">Already have an account? <a href="{{ url_for('userlogin') }}" class="text-danger">Sign In</a></span><br>
+                <span class="reg">Back to <a href="{{ url_for('home') }}" class="text-danger">Home</a></span>
+              </form>
+            </div>
+          </div>
+        </div>
+ 
+
+
+    <!-- / Content -->
+
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="static/files-login/jquery.js"></script>
+    <script src="static/files-login/popper.js"></script>
+    <script src="static/files-login/bootstrap.js"></script>
+    <script src="static/files-login/perfect-scrollbar.js"></script>
+
+    <script src="static/files-login/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="static/files-login/main.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
+</html>
