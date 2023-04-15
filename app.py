@@ -58,8 +58,11 @@ def userlogin():
 #user home 	
 @app.route("/userhome")
 def user_home():
+  with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM bloodpublish")
+      data = cursor.fetchall()
   if 'user_id' in session:
-    return render_template('user/user_home.html')
+    return render_template('user/user_home.html',bloodrequestdata=data)
   else:
      return redirect(url_for('userlogin'))
 
@@ -202,6 +205,22 @@ def hospitalregisterbackend():
       mysql.commit()
       return render_template('hospital/hospital_login.html' )
 
+#blood donator list
+@app.route("/bloodonatorlist")
+def bloodonatorlist():
+    with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM userblooddonation")
+      data = cursor.fetchall()
+      return render_template('hospital/bloodonatorlist.html', blooddonatordata=data)
+
+#blood request list
+@app.route("/bloodrequestlist")
+def bloodrequestlist():
+    with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM bloodpublish")
+      data = cursor.fetchall()
+      return render_template('hospital/bloodrequestlist.html', bloodrequestdata=data)
+
 ########################################################################################
 
 #login for admin
@@ -235,8 +254,22 @@ def admin_home():
     return render_template('admin/admin_home.html')
   else:
      return redirect(url_for('adminlogin'))
+    
+#accident list
+@app.route("/accidentlist")
+def accidentlist():
+    with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM accidentdetail")
+      data = cursor.fetchall()
+      return render_template('admin/accidentlist.html', accidentdata=data)
 
- 
+#accident list
+@app.route("/driverlist")
+def driverlist():
+    with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM driverregister")
+      data = cursor.fetchall()
+      return render_template('admin/driverlist.html', driverdata=data)
 ############################################################################################
 
 
@@ -327,6 +360,8 @@ def hospitalbloodrequestbackend():
       return render_template('hospital/hospital_home.html' )
 
   #################################################################################
+
+
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', debug=True)
 

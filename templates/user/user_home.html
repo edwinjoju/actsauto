@@ -1,12 +1,3 @@
-<?php include('static/config.php');
-include('user_session.php');
-
-$user_id = $_SESSION['id'];
-$sql = "SELECT * FROM userregister WHERE user_id = '$user_id' ";
-$result = mysqli_query($con, $sql);
-$info = mysqli_fetch_assoc($result);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,7 +98,6 @@ $info = mysqli_fetch_assoc($result);
     </div>
   </section><!-- End Hero -->
   <main id="main">
-    <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
       <div class="container" data-aos="fade-up">
 
@@ -115,8 +105,30 @@ $info = mysqli_fetch_assoc($result);
           <h2>Urgent Blood Needed</h2>
         </div>
 
-        
+        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+          <div class="swiper-wrapper">
+          {% for row in bloodrequestdata %}
+             <div class='swiper-slide'>
+                <div class='testimonial-item'>
+                  <p>
+                    Patient Name: {{row.name}}<br>
+                    Blood Needed: {{ row.blood_group}} <br>
+                    Date of usage: {{ row.date}} <br>
+                    Bystander name: {{ row.bystander_name}} <br>
+                    Bystander Phone: {{ row.bystander_ph}} <br>
+                    Other Details: {{ row.other}}
+                  </p>
+                </div>
+              </div>
+      
+            {% endfor %}
 
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+      </div>
+    </section><!-- End Testimonials Section -->
   </main><!-- End #main -->
 
  
