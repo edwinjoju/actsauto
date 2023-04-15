@@ -56,7 +56,7 @@
             </tr>
         </thead>
         <tbody>
-          {% for row in blooddonatordata %}
+          {% for row in accidentdata %}
             <tr class='warning'>
               <td>{{row.actsid}}</td>
               <td>{{ row.name}}</td>
@@ -89,7 +89,7 @@
             $(document).ready(function() {
                 //Only needed for the filename of export files.
                 //Normally set in the title tag of your page.
-                document.title='Blood Donated List';
+                document.title='Accident List';
                 // DataTable initialisation
                 $('#example').DataTable(
                 {

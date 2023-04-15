@@ -17,13 +17,6 @@ mysql = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor #to convert cursor data to dictionary
 )
 
-#with mysql.cursor() as cursor:
-#  cursor.execute('select * from userregister') 
-#  item = cursor.fetchone()
-# print(item)
-
-
-
 @app.route("/")
 
 @app.route("/home")
@@ -131,7 +124,6 @@ def driverregister():
 @app.route("/driverregisterbackend", methods=['GET','POST'])
 def driverregisterbackend():
   if request.method == 'POST':
-    
     driver_id = request.form['driver_id']
     password = int(request.form['password'])
     driver_name = request.form['driver_name']
@@ -143,7 +135,35 @@ def driverregisterbackend():
           (driver_id, password, driver_name, phone))
       mysql.commit()
       return render_template('driver/driver_login.html' )
-      
+
+
+
+#accident detail 
+@app.route("/accidentdetail")
+def accidentdetail():
+    return render_template('driver/accidentdetail.html')
+  
+#user registration backend
+@app.route("/accidentdetailbackend", methods=['GET','POST'])
+def accidentdetailbackend():
+  if request.method == 'POST':
+    # Retrieving username and password from the login form
+    actsid = request.form['actsid']
+    name = 'null'
+    location = request.form['location']
+    noofpeople = int(request.form['noofpeople'])
+    veh_accident = request.form['veh_accident'] 
+    hospname = request.form['hospname']
+    address = request.form['address']
+    date =  datetime.now()
+    time = str(datetime.today().strftime("%I:%M %p"))
+    station = 'null'
+    with mysql.cursor() as cursor:
+      # Retrieving account details from the database if the username and password match
+      cursor.execute( 'INSERT INTO  accidentdetail VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,%s)',
+          (actsid,name, location, noofpeople, veh_accident, hospname, address, date, time, station))
+      mysql.commit()
+      return render_template('driver/driver_home.html' )
 ########################################################################################
 
 #login for hospital
@@ -177,8 +197,7 @@ def hospital_home():
     return render_template('hospital/hospital_home.html')
   else:
      return redirect(url_for('hospitallogin'))
-
-
+    
 #hospital registration
 @app.route("/hospitalregister")
 def hospitalregister():
@@ -196,8 +215,6 @@ def hospitalregisterbackend():
     hospital_latitude =  float(request.form['hospital_latitude'])
     hospital_longitude = float(request.form['hospital_longitude'])
     password = (request.form['password'])
-    
-    print(hname)
     with mysql.cursor() as cursor:
        
       cursor.execute( 'INSERT INTO hospitalregister VALUES (%s, %s, %s, %s,%s,%s,%s )',
@@ -263,13 +280,21 @@ def accidentlist():
       data = cursor.fetchall()
       return render_template('admin/accidentlist.html', accidentdata=data)
 
-#accident list
+#driver list
 @app.route("/driverlist")
 def driverlist():
     with mysql.cursor() as cursor:
       cursor.execute("SELECT * FROM driverregister")
       data = cursor.fetchall()
       return render_template('admin/driverlist.html', driverdata=data)
+
+#hospital list
+@app.route("/hospitallist")
+def hospitallist():
+    with mysql.cursor() as cursor:
+      cursor.execute("SELECT * FROM hospital")
+      data = cursor.fetchall()
+      return render_template('admin/hospitallist.html', hospitaldata=data)
 ############################################################################################
 
 
@@ -367,12 +392,3 @@ if __name__ == "__main__":
 
 
 
-#<p>{{ user.username }}</p>
-
-     #{% for row in items %}
- #                       <tr>
-  #                        <td><a href="{{ row.link}}" class="text-primary">{{row.name}}</a></td>
- #                         <td>{{ row.desc}}</td>
-  #                        <td><span class="badge bg-success">Viewed</span></td>
-  #                      </tr>
-   #   {% endfor %}
