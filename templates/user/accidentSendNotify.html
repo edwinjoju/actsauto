@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ACTS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="static/assets/img/favicon.png" rel="icon">
+  <link href=" static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href=" static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href=" static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href=" static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href=" static/assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- =======================================================
+  * Template Name: OnePage
+  * Updated: Mar 10 2023 with Bootstrap v5.2.3
+  * Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
+  * Author: BootstrapMade.com
+  ======================================================== -->
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="#">ACTS AUTO</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+      <nav id="navbar" class="navbar">
+          <ul> 
+            <li><a class="nav-link scrollto" href=" logout.php">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+ 
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center" >
+    <div class="container position-relative">
+    <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-9 text-center">
+          <h1>ACTS AUTO </h1>
+          <h2>Alert Nearest Ambulance </h2>
+        </div>
+
+     <!-- ======= Pricing Section ======= -->
+    <section id="pricing" class="pricing">
+      <div class="container" data-aos="fade-up">
+ 
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6" data-aos="zoom-im" data-aos-delay="100">
+
+            <div class="box">
+              <h3>Your current location is:</h3>
+              <p style="color:red;" id="current-location"> <p>
+
+              <div class="btn-wrap">
+                <a   class="btn-buy" onclick = "alertdriver()">Alert Ambulance</a>
+              </div>
+  
+            </div>
+          </div>
+
+ 
+          <div class="col-lg-4 col-md-6 mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="100">
+            <div class="box" id="driver_details">
+              <p><lord-icon src="https://cdn.lordicon.com/gwxsygdo.json" trigger="loop"style="width:50px;height:50px"></lord-icon></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Pricing Section -->
+ 
+
+      </div>
+    </div>
+  </section><!-- End Hero -->
+  
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="static/assets/vendor/aos/aos.js"></script>
+  <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="static/assets/js/main.js"></script>
+  
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+<!-----------------------------Getting the Location name-------------------------------------------->
+<script>
+    
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
+    
+    function successCallback(position) {
+        const { accuracy, latitude, longitude,  speed } = position.coords; //give values from position.coords to array
+        const lat = latitude;     // current latitude
+        const lon = longitude;    //current longitude
+
+        // Construct the API URL
+        const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`;
+        // Make a request to the API using fetch
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            // Extract the location name from the API response
+            locationName = data.display_name;
+            document.getElementById("current-location").textContent = `${locationName}`;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+
+    }
+
+    function errorCallback(error) {
+    }
+    var options = {
+        //enableHighAccuracy: false,
+        //timeout: 5000,
+        //maximumAge: 0
+    };
+    </script>
+
+<!-------------------------------End of location name------------------------------->
+
+
+<!-------------------------------Notification section------------------------------->
+
+<script>
+          async function getDriver(id){
+            const res= await fetch({{ url_for("accidentDriver", id=id) }});
+            const data = await res.json();
+            if(Array.isArray(data))
+            {
+              return;
+            }
+            const driver_details = document.getElementById('driver_details');
+            driver_details.innerHTML = `<span>Driver ID</span><p>${data.driver_id}</p><span>Distance</span><p id="driver_distance" >Recalculating...<lord-icon src="https://cdn.lordicon.com/avytqtql.json" trigger="loop"  style="width:30px;height:30px"></lord-icon></p><span>Driver Location<span><p>${data.locationName}</p><button class='btn btn-success' onclick="window.open('tel:${data.phone}')">Call Now</button> `;
+            
+            //------------------------------Getting Route Distance------------------------------
+            const success = (position) =>{
+                
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const dlat = data.latitude;
+                const dlon =data.longitude;
+                const origin = [latitude,longitude]; // latitude and longitude of the origin location
+                const destination = [dlat, dlon]; // latitude and longitude of the destination location
+
+                const url = `https://router.project-osrm.org/route/v1/driving/${origin[1]},${origin[0]};${destination[1]},${destination[0]}?annotations=distance`;
+
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const distance = data.routes[0].distance / 1000; // distance in kilometers
+                    document.getElementById("driver_distance").textContent = distance.toFixed(2) + "Km";
+                });
+             }
+
+                const error = () => {
+                    alert(' Error ');
+                  }
+                  navigator.geolocation.getCurrentPosition(success, error);
+            }
+//---------------------------------End of Getting Route Distance------------------------------------------
+//-------------------------------Sending current location to accident_notify-------------------------------
+          function alertdriver(){
+            alert("Alert have been sent to driver...");
+            console.log('click');
+              const success = async(position) => {
+                  const latitude = position.coords.latitude;
+                  const longitude = position.coords.longitude;
+
+                  const data = new FormData();
+                  data.append("latitude",latitude);
+                  data.append("longitude",longitude);
+                  data.append("location",document.getElementById("current-location").textContent);
+                  const res = await fetch('{{url_for("accidentNotify") }}',{method:"POST",body:data})
+                  const d = await res.json();
+                  console.log(d);
+                  setInterval(()=>getDriver(d.id),5000);
+              }
+
+              const error = () => {
+                alert(' Error ');
+              }
+
+              navigator.geolocation.getCurrentPosition(success, error);
+          }
+
+   //-------------------------------End of Sending current location to accident_notify-------------------------------
+      </script>
+
+<!--End of Notification section-->
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request, redirect, session, url_for
+from flask import Flask, render_template,request, redirect, session, url_for, jsonify
 from datetime import datetime
 import pymysql.cursors
 import os
@@ -96,7 +96,7 @@ def driverlogin():
       cursor.execute('SELECT * FROM driverregister WHERE driver_id = %s AND password = %s ',(driver_id, password))
       account = cursor.fetchone()
       if account:  # If the account exists
-        # Creating session variables to track the user's login status
+        # Creating session variables to track the driver's login status
         session['loggedin'] = True
         session['driver_id'] = account['driver_id']
         session['password'] = account['password']
@@ -357,7 +357,7 @@ def userbloodrequestbackend():
   #################################################################################
 
 #blood request for hospitals  for uploading the details
-@app.route("/hospitalbloodrequest", methods=['GET', 'POST'])
+@app.route("/hospitalbloodrequest")
 def hospitalbloodrequest():
   return render_template('hospital/hospitalbloodrequest.html')
 
@@ -365,7 +365,7 @@ def hospitalbloodrequest():
 @app.route("/hospitalbloodrequestbackend", methods=['GET','POST'])
 def hospitalbloodrequestbackend():
   if request.method == 'POST':
-     
+    
     name = request.form['name']
     case = request.form['case']
     location = request.form['location']
@@ -386,6 +386,85 @@ def hospitalbloodrequestbackend():
 
   #################################################################################
 
+#Notification Section
+@app.route("/accidentSendNotify")
+def accidentSendNotify():
+  return render_template('user/accidentSendNotify.html')
+  
+#sending notification to accident notify
+@app.route("/accidentNotify", methods=['POST'])
+def accidentNotify():
+  lat = request.form['latitude']
+  long = request.form['longitude']
+  loc = request.form['location']
+
+  with mysql.cursor() as cursor:
+    cursor.execute("INSERT INTO accident_notify(latitude, longitude, location) VALUES (%s, %s, %s)", (lat, long, loc))
+    mysql.commit()
+
+  data = {'id': cursor.lastrowid}
+  return jsonify(data)
+
+#getting live location from driver
+@app.route('/accidentDriver/<int:id>', methods=['GET'])
+def accidentDriver(id):
+   with mysql.cursor() as cursor:
+    cursor.execute("SELECT * FROM accident_notify WHERE id=%s AND driver_id is NOT NULL", (id))
+    data = cursor.fetchone()
+
+    if not data:
+        return jsonify([])
+
+    cursor.execute("SELECT * FROM driverlocation WHERE driver_id=%s", (data[0]))
+    driver_location = cursor.fetchone()
+    return jsonify(driver_location)
+
+#live location for driver
+@app.route('/liveLocation', methods=['POST'])
+def liveLocation():
+    driver_id = session['driver_id']
+
+    with mysql.cursor() as cursor:
+        lat = request.form['latitude']
+        long = request.form['longitude']
+        loc = request.form['location']
+        sql = "UPDATE driverlocation SET latitude=%s, longitude=%s, locationName=%s, timestamp=CURRENT_TIME() WHERE driver_id=%s"
+        cursor.execute(sql, (lat, long, loc, driver_id))
+        mysql.commit()
+        return str(driver_id)
+
+#getting driver id
+@app.route('/accidentNotification', methods=['GET', 'POST'])
+def accidentNotification():
+   last_id = request.args.get('last_id')
+   with mysql.cursor() as cursor:
+    sql = "SELECT * FROM accident_notify WHERE id > %s AND driver_id IS NULL AND timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY id DESC"
+    cursor = mysql.cursor(dictionary=True)
+    cursor.execute(sql, (last_id,))
+    data = cursor.fetchall()
+
+   return jsonify(data)
+  
+#accept or reject of request
+app.route('/acceptReject', methods=['GET', 'POST'])
+def acceptReject():
+  if request.method == 'POST':
+     with mysql.cursor() as cursor:
+        driver_id = session['driver_id']
+        id = request.form['id']
+        status = request.form['status']
+        if status == 'accept':
+            # if id = driver id no accept!!!
+            sql = "UPDATE accident_notify SET driver_id = %s WHERE id = %s;"
+            cursor.execute(sql, (driver_id, id))
+            mysql.commit()
+        return
+       id = request.args.get('id')
+       sql = "SELECT * FROM accident_notify WHERE id = %s AND driver_id IS NULL"
+       cursor.execute(sql, (id,))
+       data = cursor.fetchone()
+       if not data:
+          return
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', debug=True)

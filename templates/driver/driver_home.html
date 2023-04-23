@@ -147,7 +147,7 @@
         data.append("latitude",latitude);
         data.append("longitude",longitude);
         data.append("location", document.getElementById("location").textContent)
-        fetch('live_location.php',{method:"POST",body:data})
+        fetch('{{ url_for("liveLocation") }}',{method:"POST",body:data})
     }
 
     const error = () => {
@@ -159,8 +159,7 @@
     //Getting the last ID 
     let last_id = localStorage.getItem("last_id")??-1;
     window.setInterval(async()=>{
-      const result = await fetch("/acts/accident_notification.php?last_id="+last_id);
-
+      const result = await fetch("{{ url_for('accidentNotification') }}?last_id="+last_id);
       const data = await result.json();
 
       if(data.length == 0){

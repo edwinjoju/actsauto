@@ -34,7 +34,12 @@
   * Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
   * Author: BootstrapMade.com
   ======================================================== -->
-
+  <!--Script for Notification enabling-->
+    <script>
+    Notification.requestPermission().then(function (permission) {
+        console.log(permission);
+      });
+      </script>
 </head>
 
 <body>
