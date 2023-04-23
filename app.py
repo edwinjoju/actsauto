@@ -518,13 +518,13 @@ def liveLocation():
         return str(driver_id)
 
 
-#getting driver id
+#getting driver id FROM IT
 @app.route('/accidentNotification', methods=['GET', 'POST'])
 def accidentNotification():
     last_id = request.args.get('last_id')
     mysql = getMysql()
     with mysql.cursor() as cursor:
-        sql = "SELECT * FROM accident_notify WHERE id > %s AND driver_id IS NULL AND timestamp >= DATE_SUB(NOW(), INTERVAL 1 HOUR) ORDER BY id DESC"
+        sql = "SELECT * FROM accident_notify WHERE id > %s AND driver_id IS NULL AND timestamp >= DATE_SUB(NOW(), INTERVAL 10 MINUTE) ORDER BY id DESC"
         cursor.execute(sql, (last_id))
         data = cursor.fetchall()
     mysql.close()
