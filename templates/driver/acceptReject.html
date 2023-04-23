@@ -1,0 +1,69 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACTS AUTO</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body{
+        background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+<body>
+     
+<div class='card' style='margin:30px;'>
+         <div class='card-body'>
+         <h5 class='card-title'>Accident Details</h5>
+         <p class='card-text'><strong>ID:</strong>{{ data['id'] }}</p>
+         <p class='card-text'><strong>Distance:</strong>{{ data['distance'] }}<span id='dist'></span>Km</p>
+         <p class='card-text'><strong>Location:</strong>{{ data['location'] }}</p>
+         </div>
+</div>
+ 
+    <div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="" method="POST">
+        <input type="number" value="{{ id }}" name="id" hidden>
+        <input type="text" value="accept"  name="status" hidden>
+        <input type="submit" class="btn btn-success btn-block" value="ACCEPT">    
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <form action="" method="POST">
+        <input type="number" value="{{ id }}" hidden name="id">
+        <input type="text" value="reject"  name="status" hidden>
+        <input type="submit" class="btn btn-danger btn-block" value="Reject">
+      </form>
+    </div>
+  </div>
+</div>
+
+    <script>
+      const success = (position) =>{
+        
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        const dlat = {{ data['latitude'] }};
+        const dlon = {{ data['longitude'] }};
+        const origin = [latitude,longitude]; // latitude and longitude of the origin location
+        const destination = [dlat, dlon]; // latitude and longitude of the destination location
+
+        const url = `https://router.project-osrm.org/route/v1/driving/${origin[1]},${origin[0]};${destination[1]},${destination[0]}?annotations=distance`;
+
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const distance = data.routes[0].distance / 1000; // distance in kilometers
+            document.getElementById("dist").textContent = distance.toFixed(2);
+        });
+    }
+    const error = () => {
+        alert(' Error ');
+      }
+    navigator.geolocation.getCurrentPosition(success, error);
+    </script>
+</body>
+</html>

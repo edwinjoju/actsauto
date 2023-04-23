@@ -159,7 +159,7 @@
     //Getting the last ID 
     let last_id = localStorage.getItem("last_id")??-1;
     window.setInterval(async()=>{
-      const result = await fetch("{{ url_for('accidentNotification') }}?last_id="+last_id);
+      const result = await fetch("/accidentNotification?last_id="+last_id);
       const data = await result.json();
 
       if(data.length == 0){
@@ -172,7 +172,9 @@
         const n = new Notification("Emergency",{body:d.location,requireInteraction:true});
         n.onclick=(event)=>{
           event.preventDefault();
-          window.open("http://localhost/ACTS/acceptReject.php?id="+d.id,"_blank")
+          window.open(`/acceptReject/${d.id}`, "_blank");
+          /* window.open("http://localhost/ACTS/acceptReject.php?id="+d.id,"_blank")*/
+
         }
       })
     },2000);
