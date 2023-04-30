@@ -71,11 +71,15 @@ def userlogin():
 #user home
 @app.route("/userhome")
 def user_home():
+    user_id=session['user_id']
     with mysql.cursor() as cursor:
         cursor.execute("SELECT * FROM bloodpublish")
         data = cursor.fetchall()
+    with mysql.cursor() as cursor:
+        cursor.execute("SELECT * from userblooddonation WHERE user_id=%s", (user_id,))
+        blooddonate = cursor.fetchall()
     if 'user_id' in session:
-        return render_template('user/user_home.html', bloodrequestdata=data)
+        return render_template('user/user_home.html', bloodrequestdata=data,blooddonate=blooddonate)
     else:
         return redirect(url_for('userlogin'))
 
@@ -273,7 +277,7 @@ def hospitalregisterbackend():
 @app.route("/bloodonatorlist")
 def bloodonatorlist():
     with mysql.cursor() as cursor:
-        cursor.execute("SELECT * FROM userblooddonation")
+        cursor.execute("SELECT * FROM userblooddonation ORDER BY date")
         data = cursor.fetchall()
         return render_template('hospital/bloodonatorlist.html',
                                blooddonatordata=data)
@@ -371,7 +375,7 @@ def userbloodonation():
 def userbloodonationbackend():
     if request.method == 'POST':
         # Retrieving username and password from the login form
-        userid = 1
+        userid = session['user_id']
         name = request.form['name']
         dob = request.form['dob']
         take_meds = request.form['take_meds']
