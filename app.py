@@ -361,7 +361,7 @@ def hospitallist():
 
 
 #blood donation for users for uploading the details
-@app.route("/userbloodonation", methods=['GET', 'POST'])
+@app.route("/userbloodonation")
 def userbloodonation():
     return render_template('user/userbloodonation.html')
 
@@ -558,6 +558,14 @@ def acceptReject(id):
             return render_template('driver/acceptReject.html',
                                    data=data,
                                    id=id)
+
+###########################################Nearest Hospital Section######################################################
+@app.route("/nearhospital", methods=['GET', 'POST'])
+def nearhospital():
+     with mysql.cursor() as cursor:
+        cursor.execute("SELECT * FROM hospitalregister")
+        data = cursor.fetchall()
+        return render_template('user/near_hospital.html', nearhospitaldata=data)
 
 
 if __name__ == "__main__":
