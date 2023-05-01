@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from datetime import datetime
+from verify_email import verify_email
 import pymysql.cursors
 import os
 
