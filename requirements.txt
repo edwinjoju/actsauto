@@ -1,4 +1,5 @@
 flask
 pymysql
+verify_email
 Flask-JSON
 gunicorn
