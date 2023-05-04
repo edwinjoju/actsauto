@@ -1,48 +1,108 @@
+ <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ACTS AUTO</title>
-    <link rel="stylesheet" href="style.css">
-   <link href="static/img/icons/acts.png" rel="icon">
-<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <style>
-      body{
-        background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
-      }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-<body>
-     
-<div class='card' style='margin:30px;'>
-         <div class='card-body'>
-         <h5 class='card-title'>Accident Details</h5>
-         <p class='card-text'><strong>ID:</strong>{{ data['id'] }}</p>
-         <p class='card-text'><strong>Distance:</strong>{{ data['distance'] }}<span id='dist'></span>Km</p>
-         <p class='card-text'><strong>Location:</strong>{{ data['location'] }}</p>
-         </div>
-</div>
- 
-    <div class="container">
-  <div class="row">
-    <div class="col-sm-6">
-      <form action="" method="POST">
-        <input type="number" value="{{ id }}" name="id" hidden>
-        <input type="text" value="accept"  name="status" hidden>
-        <input type="submit" class="btn btn-success btn-block" value="ACCEPT">    
-      </form>
-    </div>
-    <div class="col-sm-6">
-      <form action="" method="POST">
-        <input type="number" value="{{ id }}" hidden name="id">
-        <input type="text" value="reject"  name="status" hidden>
-        <input type="submit" class="btn btn-danger btn-block" value="Reject">
-      </form>
-    </div>
-  </div>
-</div>
 
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>ACTS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href=" img/icons/acts.png" rel="icon">
+  <link href=" assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href=" static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href=" static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href=" static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href=" static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href=" static/assets/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
+      <h1 class="logo"><a href="#">ACTS AUTO</a></h1>
+      <nav id="navbar" class="navbar">
+          <ul> 
+            <li><a class="nav-link scrollto" href="{{url_for('home') }}">Logout</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+    </div>
+  </header><!-- End Header -->
+ 
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center" >
+    <div class="container position-relative">
+    <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-9 text-center">
+          <h1>ACTS AUTO </h1>
+          <h2>An Accident Care and Transport Initiative</h2>
+        </div>
+
+        <div class='card' style='margin:30px;'>
+            <div class='card-body'>
+            <h5 class='card-title'>Accident Details</h5>
+            <p class='card-text'><strong>ID:</strong>{{ data['id'] }}</p>
+            <p class='card-text'><strong>Distance:</strong>{{ data['distance'] }}<span id='dist'></span>Km</p>
+            <p class='card-text'><strong>Location:</strong>{{ data['location'] }}</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-6">
+                <form action="" method="POST">
+                  <input type="number" value="{{ id }}" name="id" hidden>
+                  <input type="text" value="accept"  name="status" hidden>
+                  <input type="submit" class="btn btn-success btn-block" value="ACCEPT">    
+                </form>
+              </div>
+              <div class="col-sm-6">
+                <form action="" method="POST">
+                  <input type="number" value="{{ id }}" hidden name="id">
+                  <input type="text" value="reject"  name="status" hidden>
+                  <input type="submit" class="btn btn-danger btn-block" value="Reject">
+                </form>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section><!-- End Hero -->
+
+      <div id="preloader"></div>
+      <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+      <!-- Vendor JS Files -->
+      <script src=" static/assets/vendor/purecounter/purecounter_vanilla.js"></script>
+      <script src=" static/assets/vendor/aos/aos.js"></script>
+      <script src=" static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src=" static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+      <script src=" static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+      <script src=" static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+      <script src=" static/assets/vendor/php-email-form/validate.js"></script>
+
+      <!-- Template Main JS File -->
+      <script src=" static/assets/js/main.js"></script>
+      
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
       const success = (position) =>{
         
@@ -67,5 +127,7 @@
       }
     navigator.geolocation.getCurrentPosition(success, error);
     </script>
-</body>
+  
+  </body>
+
 </html>
