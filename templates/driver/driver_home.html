@@ -1,4 +1,4 @@
- 
+  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,13 +30,6 @@
   <!-- Template Main CSS File -->
   <link href="static/assets/css/style.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: OnePage
-  * Updated: Mar 10 2023 with Bootstrap v5.2.3
-  * Template URL: https://bootstrapmade.com/onepage-multipurpose-bootstrap-template/
-  * Author: BootstrapMade.com
-  ======================================================== -->
-
 </head>
 
 <body>
@@ -45,16 +38,14 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center justify-content-between">
       <h1 class="logo"><a href="#">ACTS AUTO</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       <nav id="navbar" class="navbar">
           <ul> 
             <li><a class="nav-link scrollto" href="{{url_for('home') }}">Logout</a></li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+      </nav>
     </div>
-  </header><!-- End Header -->
+  </header> 
  
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center" >
@@ -150,11 +141,9 @@
         data.append("location", document.getElementById("location").textContent)
         fetch('{{ url_for("liveLocation") }}',{method:"POST",body:data})
     }
-
     const error = () => {
       alert(' Error ');
     }
-
     navigator.geolocation.watchPosition(success, error);
 
     //Getting the last ID 
@@ -174,7 +163,7 @@
         n.onclick=(event)=>{
           event.preventDefault();
           window.open(`/acceptReject/${d.id}`, "_blank");
-          /* window.open("http://localhost/ACTS/acceptReject.php?id="+d.id,"_blank")*/
+           
 
         }
       })
