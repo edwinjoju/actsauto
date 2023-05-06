@@ -10,12 +10,12 @@ smtp_port = 587
 smtp_username = os.getenv('email')
 smtp_password = os.getenv('mailpass')
 
-def sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail):
+def sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail,phone):
     # Define email contents
     sender = os.getenv('email')
     receiver = getmail
     subject = 'Subject of the email'
-    body = 'Body of the email'
+    body = 'ACTS Accident Report'
     
     body_html = body_html = f'''
 <html>
@@ -29,6 +29,7 @@ def sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,
      
     <p class="card-text">ACTS ID: {actsid} </p>
 <p class="card-text">Name: {name} </p>
+<p class="card-text">Driver Phone Number: {phone} </p>
 <p class="card-text">Location: {location} </p>
 <p class="card-text">No. of People: {noofpeople}</p>
 <p class="card-text">Vehicle Involved: {veh_accident}</p>

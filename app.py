@@ -183,12 +183,7 @@ def accidentdetail():
     cursor.execute("SELECT * FROM policestation")
     data = cursor.fetchall()
     return render_template('driver/accidentdetail.html',stationmail=data)
-
-
-#user registration backend
-@app.route("/accidentdetailbackend", methods=['GET', 'POST'])
-def accidentdetailbackend():
-    if request.method == 'POST':
+  if request.method == 'POST':
         # Retrieving username and password from the login form
         name= request.form['actsname']
         actsid = session['driver_id']
@@ -201,15 +196,20 @@ def accidentdetailbackend():
         time = str(datetime.today().strftime("%I:%M %p"))
         station = request.form['station']
         with mysql.cursor() as cursor:
+            cursor.execute('SELECT phone FROM driverregister WHERE driver_id=%s', (actsid,))
+            result = cursor.fetchall()
+            if result:
+              phone = result[0]
+              phone_str = phone['phone']
+          
+        with mysql.cursor() as cursor:
             cursor.execute('SELECT stationmail FROM policestation WHERE stationname=%s', (station,))
             data = cursor.fetchall()
-            print("data: - ",data)
             if data:
               getmail = data[0] 
-              print("getmail:- ",getmail)
               getmail_str = json.dumps(getmail)
               print("mail option- ",getmail_str)
-              sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail_str)
+              sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail_str,phone_str)
 
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
@@ -219,6 +219,9 @@ def accidentdetailbackend():
                  address, date, time, station))
             mysql.commit()
             return render_template('driver/driver_home.html')
+
+
+    
 
 
 ########################################################################################
