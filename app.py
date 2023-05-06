@@ -183,7 +183,12 @@ def accidentdetail():
     cursor.execute("SELECT * FROM policestation")
     data = cursor.fetchall()
     return render_template('driver/accidentdetail.html',stationmail=data)
-  if request.method == 'POST':
+
+
+#user registration backend
+@app.route("/accidentdetailbackend", methods=['GET', 'POST'])
+def accidentdetailbackend():
+    if request.method == 'POST':
         # Retrieving username and password from the login form
         name= request.form['actsname']
         actsid = session['driver_id']
@@ -219,9 +224,6 @@ def accidentdetail():
                  address, date, time, station))
             mysql.commit()
             return render_template('driver/driver_home.html')
-
-
-    
 
 
 ########################################################################################
