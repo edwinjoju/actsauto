@@ -411,7 +411,7 @@ def driverregister():
         phone = int(request.form['phone'])
         with mysql.cursor() as cursor:
             cursor.execute(
-                'INSERT INTO driverregister VALUES (%s, %s, %s, %s )',
+                'INSERT INTO driverregister (driver_id, password, driver_name, phone) VALUES (%s, %s, %s, %s )',
                 (driver_id, password, driver_name, phone))
             mysql.commit()
             return render_template('admin/admin_home.html')
@@ -450,7 +450,7 @@ def accidentDriver(id):
         if not data:
             return jsonify([])
 
-        cursor.execute("SELECT * FROM driverlocation WHERE driver_id=%s",
+        cursor.execute("SELECT * FROM driverregister WHERE driver_id=%s",
                        (data['driver_id']))
         driver_location = cursor.fetchone()
         return jsonify(driver_location)
@@ -464,7 +464,7 @@ def liveLocation():
         lat = request.form['latitude']
         long = request.form['longitude']
         loc = request.form['location']
-        sql = "UPDATE driverlocation SET latitude=%s, longitude=%s, locationName=%s, timestamp=CURRENT_TIME() WHERE driver_id=%s"
+        sql = "UPDATE driverregister SET latitude=%s, longitude=%s, locationName=%s, timestamp=CURRENT_TIME() WHERE driver_id=%s"
         cursor.execute(sql, (lat, long, loc, driver_id))
         mysql.commit()
         return str(driver_id)
