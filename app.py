@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from datetime import datetime
-from verify_email import verify_email
 from createMail import sendMail
 import pymysql.cursors
 import os
@@ -9,18 +8,16 @@ import json
 app = Flask(__name__)
 
 app.secret_key = 'mysecert'
-# this cell is to connect data base to colab
 
+#database connection...
 mysql = pymysql.connect(
     host='aws.connect.psdb.cloud',
     user=os.getenv('your_username'),
     password=os.getenv('your_password'),
     db='acts',
     ssl={'ssl_ca': '/etc/ssl/cert.pem'},
-    cursorclass=pymysql.cursors.
-    DictCursor  #to convert cursor data to dictionary
+    cursorclass=pymysql.cursors.DictCursor  #to convert cursor data (normal tuple) to dictionary(key-value pair)
 )
-
 
 def getMysql():
     return pymysql.connect(
@@ -29,35 +26,27 @@ def getMysql():
         password=os.getenv('your_password'),
         db='acts',
         ssl={'ssl_ca': '/etc/ssl/cert.pem'},
-        cursorclass=pymysql.cursors.
-        DictCursor  #to convert cursor data to dictionary
+        cursorclass=pymysql.cursors.DictCursor  #to convert cursor data to dictionary
     )
-
 
 @app.route("/")
 @app.route("/home")
 def home():
     return render_template('index.html')
 
-
-#########################################################################################
-
-
-#login for user
+#############################################USER SECTION##############################################################
 @app.route("/userlogin", methods=['GET', 'POST'])
 def userlogin():
-    msg = ''  # Initializing an empty message variable
     if request.method == 'POST' and 'user_id' in request.form and 'password' in request.form:
         # Retrieving username and password from the login form
         user_id = request.form['user_id']
         password = request.form['password']
         with mysql.cursor() as cursor:
-            # Retrieving account details from the database if the username and password match
             cursor.execute(
                 'SELECT * FROM userregister WHERE user_id = %s AND password = %s ',
                 (user_id, password))
             account = cursor.fetchone()
-            if account:  # If the account exists
+            if account: 
                 # Creating session variables to track the user's login status
                 session['loggedin'] = True
                 session['user_id'] = account['user_id']
@@ -70,7 +59,26 @@ def userlogin():
                 return render_template('user/user_login.html', msg=msg)
     return render_template('user/user_login.html')
 
-
+#user registration
+@app.route("/userregister", methods=['GET', 'POST'])
+def userregister():
+  if request.method == 'POST':
+        # Retrieving username and password from the login form
+        name = request.form['name']
+        phone = int(request.form['phone'])
+        user_id = request.form['user_id']
+        email = request.form['email']
+        password = request.form['password']
+        print(name)
+        with mysql.cursor() as cursor:
+            # Retrieving account details from the database if the username and password match
+            cursor.execute(
+                'INSERT INTO userregister VALUES (%s, %s, %s, %s, %s )',
+                (name, phone, user_id, email, password))
+            mysql.commit()
+            return render_template('user/user_login.html')
+  return render_template('user/userregister.html')
+   
 #user home
 @app.route("/userhome")
 def user_home():
@@ -86,34 +94,65 @@ def user_home():
     else:
         return redirect(url_for('userlogin'))
 
-
-#user registration
-@app.route("/userregister")
-def userregister():
-    return render_template('user/userregister.html')
-
-
-#user registration backend
-@app.route("/userregisterbackend", methods=['GET', 'POST'])
-def userregisterbackend():
-    if request.method == 'POST':
+#blood donation for users 
+@app.route("/userbloodonation", methods=['GET', 'POST'])
+def userbloodonation():
+  if request.method == 'POST':
         # Retrieving username and password from the login form
+        userid = session['user_id']
         name = request.form['name']
-        phone = int(request.form['phone'])
-        user_id = request.form['user_id']
-        email = request.form['email']
-        password = request.form['password']
+        dob = request.form['dob']
+        take_meds = request.form['take_meds']
+        donated = request.form['donated']
+        blood_group = request.form['blood_group']
+        address = request.form['address']
+        ph_no = int(request.form['ph_no'])
+        currdate = datetime.now()
         print(name)
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
             cursor.execute(
-                'INSERT INTO userregister VALUES (%s, %s, %s, %s, %s )',
-                (name, phone, user_id, email, password))
+                'INSERT INTO userblooddonation VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+                (userid, name, dob, blood_group, ph_no, take_meds, address,
+                 donated, currdate))
             mysql.commit()
-            return render_template('user/user_login.html')
+        return render_template('user/user_home.html')
+  return render_template('user/userbloodonation.html')
+
+#blood request for users  for uploading the details
+@app.route("/userbloodrequest", methods=['GET', 'POST'])
+def userbloodrequest():
+  if request.method == 'POST':
+    name = request.form['name']
+    case = request.form['case']
+    location = request.form['location']
+    hospital = request.form['hospital']
+    blood_group = request.form['blood_group']
+    date = request.form['date']
+    bystander_name = request.form['bystander_name']
+    bystander_ph = request.form['bystander_ph']
+    other = request.form['other']
+    with mysql.cursor() as cursor:
+        # Retrieving account details from the database if the username and password match
+        cursor.execute(
+            'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+            (name, case, location, hospital, blood_group, date,
+             bystander_name, bystander_ph, other))
+        mysql.commit()
+    return render_template('user/user_home.html')
+  return render_template('user/userbloodrequest.html')
 
 
-########################################################################################
+#nearest hospital calculation
+@app.route("/nearhospital", methods=['GET', 'POST'])
+def nearhospital():
+     with mysql.cursor() as cursor:
+        cursor.execute("SELECT * FROM hospitalregister")
+        data = cursor.fetchall()
+        return render_template('user/near_hospital.html', nearhospitaldata=data)
+
+
+#############################################DRIVER SECTION##############################################################
 #login for driver
 @app.route("/driverlogin", methods=['GET', 'POST'])
 def driverlogin():
@@ -140,8 +179,7 @@ def driverlogin():
                 msg = 'Incorrect username / password!'
                 return render_template('driver/driver_login.html', msg=msg)
     return render_template('driver/driver_login.html')
-
-
+  
 #driver home
 @app.route("/driverhome")
 def driver_home():
@@ -150,32 +188,7 @@ def driver_home():
         return render_template('driver/driver_home.html')
     else:
         return redirect(url_for('driverlogin'))
-
-
-#driver registration
-@app.route("/driverregister")
-def driverregister():
-    return render_template('driver/driverregister.html')
-
-
-#driver registration backend
-@app.route("/driverregisterbackend", methods=['GET', 'POST'])
-def driverregisterbackend():
-    if request.method == 'POST':
-        driver_id = request.form['driver_id']
-        password = int(request.form['password'])
-        driver_name = request.form['driver_name']
-        phone = int(request.form['phone'])
-        print(driver_name)
-        with mysql.cursor() as cursor:
-
-            cursor.execute(
-                'INSERT INTO driverregister VALUES (%s, %s, %s, %s )',
-                (driver_id, password, driver_name, phone))
-            mysql.commit()
-            return render_template('driver/driver_login.html')
-
-
+      
 #accident detail
 @app.route("/accidentdetail",methods=['GET', 'POST'])
 def accidentdetail():
@@ -185,7 +198,7 @@ def accidentdetail():
     return render_template('driver/accidentdetail.html',stationmail=data)
 
 
-#user registration backend
+#accidentregistration backend
 @app.route("/accidentdetailbackend", methods=['GET', 'POST'])
 def accidentdetailbackend():
     if request.method == 'POST':
@@ -197,7 +210,8 @@ def accidentdetailbackend():
         veh_accident = request.form['veh_accident']
         hospname = request.form['hospname']
         address = request.form['address']
-        date = datetime.now()
+        d = datetime.now()
+        date=d.date()
         time = str(datetime.today().strftime("%I:%M %p"))
         station = request.form['station']
         with mysql.cursor() as cursor:
@@ -226,8 +240,7 @@ def accidentdetailbackend():
             return render_template('driver/driver_home.html')
 
 
-########################################################################################
-
+#############################################HOSPITAL SECTION##############################################################
 
 #login for hospital
 @app.route("/hospitallogin", methods=['GET', 'POST'])
@@ -256,7 +269,6 @@ def hospitallogin():
                 return render_template('hospital/hospital_login.html', msg=msg)
     return render_template('hospital/hospital_login.html')
 
-
 #hospital home
 @app.route("/hospitalhome")
 def hospital_home():
@@ -266,18 +278,10 @@ def hospital_home():
     else:
         return redirect(url_for('hospitallogin'))
 
-
 #hospital registration
-@app.route("/hospitalregister")
+@app.route("/hospitalregister", methods=['GET', 'POST'])
 def hospitalregister():
-    return render_template('hospital/hospitalregister.html')
-
-
-#hospital registration backend
-@app.route("/hospitalregisterbackend", methods=['GET', 'POST'])
-def hospitalregisterbackend():
-    if request.method == 'POST':
-
+  if request.method == 'POST':
         hospital_id = request.form['hospital_id']
         hname = request.form['hname']
         hphone = int(request.form['hphone'])
@@ -286,14 +290,13 @@ def hospitalregisterbackend():
         hospital_longitude = float(request.form['hospital_longitude'])
         password = (request.form['password'])
         with mysql.cursor() as cursor:
-
             cursor.execute(
                 'INSERT INTO hospitalregister VALUES (%s, %s, %s, %s,%s,%s,%s )',
                 (hospital_id, hname, hphone, hospital_location,
                  hospital_latitude, hospital_longitude, password))
             mysql.commit()
             return render_template('hospital/hospital_login.html')
-
+  return render_template('hospital/hospitalregister.html')
 
 #blood donator list
 @app.route("/bloodonatorlist")
@@ -304,19 +307,38 @@ def bloodonatorlist():
         return render_template('hospital/bloodonatorlist.html',
                                blooddonatordata=data)
 
-
 #blood request list
 @app.route("/bloodrequestlist")
 def bloodrequestlist():
     with mysql.cursor() as cursor:
         cursor.execute("SELECT * FROM bloodpublish")
         data = cursor.fetchall()
-        return render_template('hospital/bloodrequestlist.html',
-                               bloodrequestdata=data)
-
-
-########################################################################################
-
+        return render_template('hospital/bloodrequestlist.html',bloodrequestdata=data)
+      
+#blood request for hospitals  for uploading the details
+@app.route("/hospitalbloodrequest", methods=['GET', 'POST'])
+def hospitalbloodrequest():
+  if request.method == 'POST':
+        name = request.form['name']
+        case = request.form['case']
+        location = request.form['location']
+        hospital = request.form['hospital']
+        blood_group = request.form['blood_group']
+        date = request.form['date']
+        bystander_name = request.form['bystander_name']
+        bystander_ph = request.form['bystander_ph']
+        other = request.form['other']
+        with mysql.cursor() as cursor:
+            # Retrieving account details from the database if the username and password match
+            cursor.execute(
+                'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+                (name, case, location, hospital, blood_group, date,
+                 bystander_name, bystander_ph, other))
+            mysql.commit()
+            return render_template('hospital/hospital_home.html')
+  return render_template('hospital/hospitalbloodrequest.html')
+  
+#############################################ADMIN SECTION##############################################################
 
 #login for admin
 @app.route("/adminlogin", methods=['GET', 'POST'])
@@ -345,7 +367,6 @@ def adminlogin():
                 return render_template('admin/admin_login.html', msg=msg)
     return render_template('admin/admin_login.html')
 
-
 #admin home
 @app.route("/adminhome")
 def admin_home():
@@ -355,7 +376,6 @@ def admin_home():
     else:
         return redirect(url_for('adminlogin'))
 
-
 #accident list
 @app.route("/accidentlist")
 def accidentlist():
@@ -364,7 +384,6 @@ def accidentlist():
         data = cursor.fetchall()
         return render_template('admin/accidentlist.html', accidentdata=data)
 
-
 #driver list
 @app.route("/driverlist")
 def driverlist():
@@ -372,7 +391,6 @@ def driverlist():
         cursor.execute("SELECT * FROM driverregister")
         data = cursor.fetchall()
         return render_template('admin/driverlist.html', driverdata=data)
-
 
 #hospital list
 @app.route("/hospitallist")
@@ -383,116 +401,26 @@ def hospitallist():
         return render_template('admin/hospitallist.html', hospitaldata=data)
 
 
-############################################################################################
-
-
-#blood donation for users for uploading the details
-@app.route("/userbloodonation")
-def userbloodonation():
-    return render_template('user/userbloodonation.html')
-
-
-#blood donation backend for inserting into database
-@app.route("/userbloodonationbackend", methods=['GET', 'POST'])
-def userbloodonationbackend():
-    if request.method == 'POST':
-        # Retrieving username and password from the login form
-        userid = session['user_id']
-        name = request.form['name']
-        dob = request.form['dob']
-        take_meds = request.form['take_meds']
-        donated = request.form['donated']
-        blood_group = request.form['blood_group']
-        address = request.form['address']
-        ph_no = int(request.form['ph_no'])
-        currdate = datetime.now()
-        print(name)
+#driver registration
+@app.route("/driverregister",methods=['GET','POST'])
+def driverregister():
+  if request.method == 'POST':
+        driver_id = request.form['driver_id']
+        password = request.form['password']
+        driver_name = request.form['driver_name']
+        phone = int(request.form['phone'])
         with mysql.cursor() as cursor:
-            # Retrieving account details from the database if the username and password match
             cursor.execute(
-                'INSERT INTO userblooddonation VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
-                (userid, name, dob, blood_group, ph_no, take_meds, address,
-                 donated, currdate))
+                'INSERT INTO driverregister VALUES (%s, %s, %s, %s )',
+                (driver_id, password, driver_name, phone))
             mysql.commit()
-            return render_template('user/user_home.html')
-
-
-########################################################################################
-
-
-#blood request for users  for uploading the details
-@app.route("/userbloodrequest", methods=['GET', 'POST'])
-def userbloodrequest():
-    return render_template('user/userbloodrequest.html')
-
-
-#blood request backend for inserting into database
-@app.route("/userbloodrequestbackend", methods=['GET', 'POST'])
-def userbloodrequestbackend():
-    if request.method == 'POST':
-
-        name = request.form['name']
-        case = request.form['case']
-        location = request.form['location']
-        hospital = request.form['hospital']
-        blood_group = request.form['blood_group']
-        date = request.form['date']
-        bystander_name = request.form['bystander_name']
-        bystander_ph = request.form['bystander_ph']
-        other = request.form['other']
-
-        print(name)
-        with mysql.cursor() as cursor:
-            # Retrieving account details from the database if the username and password match
-            cursor.execute(
-                'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
-                (name, case, location, hospital, blood_group, date,
-                 bystander_name, bystander_ph, other))
-            mysql.commit()
-            return render_template('user/user_home.html')
-
-    #################################################################################
-
-
-#blood request for hospitals  for uploading the details
-@app.route("/hospitalbloodrequest")
-def hospitalbloodrequest():
-    return render_template('hospital/hospitalbloodrequest.html')
-
-
-#blood request backend for inserting into database
-@app.route("/hospitalbloodrequestbackend", methods=['GET', 'POST'])
-def hospitalbloodrequestbackend():
-    if request.method == 'POST':
-
-        name = request.form['name']
-        case = request.form['case']
-        location = request.form['location']
-        hospital = request.form['hospital']
-        blood_group = request.form['blood_group']
-        date = request.form['date']
-        bystander_name = request.form['bystander_name']
-        bystander_ph = request.form['bystander_ph']
-        other = request.form['other']
-
-        print(name)
-        with mysql.cursor() as cursor:
-            # Retrieving account details from the database if the username and password match
-            cursor.execute(
-                'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
-                (name, case, location, hospital, blood_group, date,
-                 bystander_name, bystander_ph, other))
-            mysql.commit()
-            return render_template('hospital/hospital_home.html')
-
-    #################################################################################
-
+            return render_template('admin/admin_home.html')
+  return render_template('admin/driverregister.html')
 
 ################################ Notification Section ##################################################
 @app.route('/accidentSendNotify')
 def accidentSendNotify():
     return render_template('user/accidentSendNotify.html')
-
 
 #sending notification to accident notify
 @app.route("/accidentNotify", methods=['POST'])
@@ -508,7 +436,6 @@ def accidentNotify():
         mysql.commit()
     data = {'id': cursor.lastrowid}
     return jsonify(data)
-
 
 #getting live location from driver
 @app.route('/accidentDriver/<int:id>', methods=['GET'])
@@ -528,7 +455,6 @@ def accidentDriver(id):
         driver_location = cursor.fetchone()
         return jsonify(driver_location)
 
-
 #live location for driver
 @app.route('/liveLocation', methods=['POST'])
 def liveLocation():
@@ -543,7 +469,6 @@ def liveLocation():
         mysql.commit()
         return str(driver_id)
 
-
 #getting driver id FROM IT
 @app.route('/accidentNotification', methods=['GET', 'POST'])
 def accidentNotification():
@@ -555,7 +480,6 @@ def accidentNotification():
         data = cursor.fetchall()
     mysql.close()
     return jsonify(data)
-
 
 #accept or reject of request
 @app.route('/acceptReject/<int:id>', methods=['GET', 'POST'])
@@ -581,18 +505,7 @@ def acceptReject(id):
             data = cursor.fetchone()
             if not data:
                 return redirect("/driverhome")
-            return render_template('driver/acceptReject.html',
-                                   data=data,
-                                   id=id)
-
-###########################################Nearest Hospital Section######################################################
-@app.route("/nearhospital", methods=['GET', 'POST'])
-def nearhospital():
-     with mysql.cursor() as cursor:
-        cursor.execute("SELECT * FROM hospitalregister")
-        data = cursor.fetchall()
-        return render_template('user/near_hospital.html', nearhospitaldata=data)
-
+            return render_template('driver/acceptReject.html',data=data,id=id)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

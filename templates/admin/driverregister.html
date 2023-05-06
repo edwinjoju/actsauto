@@ -28,7 +28,7 @@
               <h4 class="mb-2"><b>Driver Registration</b></h4>
               <p class="mb-4">Enter the details of the ambulance driver to create an account</p>
 
-              <form id="formAuthentication" class="mb-3" action="{{ url_for('driverregisterbackend') }}" method="POST">
+              <form id="formAuthentication" class="mb-3" action="{{ url_for('driverregister') }}" method="POST">
 
               <div class="mb-3">
                   <label for="driver_id" class="form-label">driver_id</label>
@@ -63,8 +63,8 @@
                 <div class="mb-3">
                   <button class="btn btn-danger" type="submit" onclick="successful()">Sign in</button>
                 </div>
-                <span class="reg">Already have an account? <a href="driver_login.php" class="text-danger">Sign In</a></span><br>
-                <span class="reg">Back to <a href="static/index.php" class="text-danger">Home</a></span>
+                
+                <span class="reg">Back to <a href="{{url_for('admin_home')}}" class="text-danger">Home</a></span>
               </form>
             </div>
           </div>

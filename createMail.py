@@ -28,7 +28,7 @@ def sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,
   <div class="card-body">
      
     <p class="card-text">ACTS ID: {actsid} </p>
-<p class="card-text">Name: {name} </p>
+<p class="card-text">Driver Name: {name} </p>
 <p class="card-text">Driver Phone Number: {phone} </p>
 <p class="card-text">Location: {location} </p>
 <p class="card-text">No. of People: {noofpeople}</p>
