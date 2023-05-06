@@ -10,8 +10,6 @@ smtp_port = 587
 smtp_username = os.getenv('email')
 smtp_password = os.getenv('mailpass')
 
-
-
 def sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail):
     # Define email contents
     sender = os.getenv('email')

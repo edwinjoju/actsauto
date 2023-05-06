@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 from datetime import datetime
 from verify_email import verify_email
+from createMail import sendMail
 import pymysql.cursors
 import os
+import json
 
 app = Flask(__name__)
 
@@ -175,9 +177,12 @@ def driverregisterbackend():
 
 
 #accident detail
-@app.route("/accidentdetail")
+@app.route("/accidentdetail",methods=['GET', 'POST'])
 def accidentdetail():
-    return render_template('driver/accidentdetail.html')
+  with mysql.cursor() as cursor:
+    cursor.execute("SELECT * FROM policestation")
+    data = cursor.fetchall()
+    return render_template('driver/accidentdetail.html',stationmail=data)
 
 
 #user registration backend
@@ -185,8 +190,8 @@ def accidentdetail():
 def accidentdetailbackend():
     if request.method == 'POST':
         # Retrieving username and password from the login form
-        actsid = request.form['actsid']
-        name = 'null'
+        name= request.form['actsname']
+        actsid = session['driver_id']
         location = request.form['location']
         noofpeople = int(request.form['noofpeople'])
         veh_accident = request.form['veh_accident']
@@ -194,7 +199,18 @@ def accidentdetailbackend():
         address = request.form['address']
         date = datetime.now()
         time = str(datetime.today().strftime("%I:%M %p"))
-        station = 'null'
+        station = request.form['station']
+        with mysql.cursor() as cursor:
+            cursor.execute('SELECT stationmail FROM policestation WHERE stationname=%s', (station,))
+            data = cursor.fetchall()
+            print("data: - ",data)
+            if data:
+              getmail = data[0] 
+              print("getmail:- ",getmail)
+              getmail_str = json.dumps(getmail)
+              print("mail option- ",getmail_str)
+              sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail_str)
+
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
             cursor.execute(
@@ -357,7 +373,7 @@ def driverlist():
 @app.route("/hospitallist")
 def hospitallist():
     with mysql.cursor() as cursor:
-        cursor.execute("SELECT * FROM hospital")
+        cursor.execute("SELECT * FROM hospitalregister")
         data = cursor.fetchall()
         return render_template('admin/hospitallist.html', hospitaldata=data)
 
