@@ -2,7 +2,7 @@
   "name": "ACTS AUTO",
   "short_name": "ACTS",
   "description": "A ACTS initiative",
-  "start_url": "/actsautoproject.onrender.com",
+  "start_url": "/home",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2196f3",
