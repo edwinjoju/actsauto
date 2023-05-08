@@ -1,14 +1,3 @@
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('static/sw.js')
-    .then(registration => {
-      console.log('Service worker registered successfully:', registration);
-    })
-    .catch(error => {
-      console.error('Service worker registration failed:', error);
-    });
-}
-
-
 // Define the cache name
 const CACHE_NAME = 'actsautoproject-cache';
 
@@ -26,7 +15,6 @@ const FILES_TO_CACHE = [
 
 const CACHE = "pwabuilder-offline-page";
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "ToDo-replace-this-name.html";
