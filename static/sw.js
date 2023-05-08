@@ -1,6 +1,17 @@
 if (typeof navigator.serviceWorker !== 'undefined') {
-    navigator.serviceWorker.register('static/sw.js')
-  }
+    navigator.serviceWorker.register('static/sw.js');
+    navigator.serviceWorker.ready.then(function(registration) {
+        // Register the service worker for push
+        registration.pushManager.subscribe({userVisibleOnly: true})
+            .then(function(subscription) {
+                console.log('Push subscribed:', subscription.endpoint);
+                // Store the subscription endpoint on your server and send it to the client if needed
+            })
+            .catch(function(error) {
+                console.error('Push subscription error:', error);
+            });
+    });
+}
 
 const CACHE_NAME = 'cool-cache';
 
