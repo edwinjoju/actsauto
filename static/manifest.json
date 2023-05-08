@@ -8,47 +8,46 @@
   "theme_color": "#2196f3",
   "screenshots": [
     {
-    "src" : "/img/ss1.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss1.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss2.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss2.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss3.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss3.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss4.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss4.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss5.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss5.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss6.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss6.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss7.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  },
+      "src": "/img/ss7.png",
+      "size": "1280x720",
+      "type": "image/png"
+    },
     {
-    "src" : "/img/ss8.png",
-    "size" : "1280x720"
-    "type" : "image/png"
-  }
-    
-  ]
+      "src": "/img/ss8.png",
+      "size": "1280x720",
+      "type": "image/png"
+    }
+  ],
   "icons": [
     {
       "src": "/static/img/icons/acts.png",
