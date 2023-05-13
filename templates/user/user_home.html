@@ -12,6 +12,7 @@
   <link href="static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+    <script src="static/sw.js"></script>
   <script src="https://kit.fontawesome.com/d5d58b00c4.js" crossorigin="anonymous"></script>
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -60,19 +61,19 @@
         </div>
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="300">
           <div class="icon-box">
-            <div class="icon"><i class="ri-palette-line"></i></div>
+            <div class="icon"><i class="fa-sharp fa-solid fa-hospital"></i></div>
             <h4 class="title"><a href="{{url_for('nearhospital') }}">Search Hospital  </a></h4>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="400">
           <div class="icon-box">
-            <div class="icon"><i class="ri-command-line"></i></div>
+            <div class="icon"><i class="fa-solid fa-droplet" style="color: #ff1100;"></i></div>
             <h4 class="title"><a href="{{url_for('userbloodonation') }}">Donate Blood</a></h4>
           </div>
         </div>
         <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0" data-aos="zoom-in" data-aos-delay="500">
           <div class="icon-box">
-            <div class="icon"><i class="ri-fingerprint-line"></i></div>
+            <div class="icon"><i class="fa-sharp fa-solid fa-bed-pulse"></i></div>
             <h4 class="title"><a href="{{url_for('userbloodrequest') }}">Request Blood</a></h4>  
           </div>
         </div>

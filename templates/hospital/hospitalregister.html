@@ -17,10 +17,21 @@
 
       <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+      <script src="static/sw.js"></script>
     
   </head>
 
   <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
       <div class="authentication-wrapper authentication-basic container-p-y">
           <div class="card">
             <div class="card-body">
@@ -82,8 +93,7 @@
                 <div class="mb-3">
                   <button class="btn btn-danger" type="submit">Sign in</button>
                 </div>
-                <span class="reg">Already have an account? <a href="{{ url_for('userlogin') }}" class="text-danger">Sign In</a></span><br>
-                <span class="reg">Back to <a href="{{ url_for('home') }}" class="text-danger">Home</a></span>
+                <span class="reg">Back to <a href="{{ url_for('admin_home') }}" class="text-danger">Home</a></span>
               </form>
             </div>
           </div>

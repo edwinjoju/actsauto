@@ -14,6 +14,7 @@
 
   <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+    <script src="static/sw.js"></script>
   
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <!-- Vendor CSS Files -->
@@ -54,6 +55,7 @@
                 <div class="row ">
                     <div class="col-lg-7 mx-auto">
                         <div class="card mt-2 mx-auto p-4 bg-light">
+                          <h2>Blood Request form</h2>
                             <div class="card-body bg-light">
                             <div class = "container">
                                 <form id="contact-form" role="form" method="POST" action="{{url_for('userbloodrequest') }}">

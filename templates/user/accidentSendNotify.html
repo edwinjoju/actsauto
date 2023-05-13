@@ -15,6 +15,7 @@
   <link href=" static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+    <script src="static/sw.js"></script>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -173,7 +174,7 @@
               return;
             }
             const driver_details = document.getElementById('driver_details');
-            driver_details.innerHTML = `<span>Driver ID</span><p>${data.driver_name}</p><span>Distance</span><p id="driver_distance" >Recalculating...<lord-icon src="https://cdn.lordicon.com/avytqtql.json" trigger="loop"  style="width:30px;height:30px"></lord-icon></p><span>Driver Location<span><p>${data.locationName}</p><button class='btn btn-success' onclick="window.open('tel:${data.phone}')">Call Now</button> `;
+            driver_details.innerHTML = `<span>Driver name: </span>${data.driver_name}<span> <br>Distance</span><p id="driver_distance" >Recalculating...<lord-icon src="https://cdn.lordicon.com/avytqtql.json" trigger="loop"  style="width:30px;height:30px"></lord-icon></p><span>Driver Location<span><p>${data.locationName}</p><button class='btn btn-success' onclick="window.open('tel:${data.phone}')">Call Now</button> `;
             
             //------------------------------Getting Route Distance------------------------------
             const success = (position) =>{
@@ -218,11 +219,9 @@
                   console.log(d);
                   setInterval(()=>getDriver(d.id),5000);
               }
-
               const error = () => {
                 alert(' Error ');
               }
-
               navigator.geolocation.getCurrentPosition(success, error);
           }
 

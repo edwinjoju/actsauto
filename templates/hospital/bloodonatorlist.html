@@ -9,36 +9,46 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css">
   <link href="static/img/icons/acts.png" rel="icon">
     <title>ACTS AUTO</title>
+    <style>
+      *{
+        margin:10px;
+      }
 
+      nav{
+        background-color:#808080;
+      }
+      a{
+        text-decoration:none;
+        color:white;
+      }
+    </style>
     <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+    <script src="static/sw.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar" id="navbar">
         <div class="container-fluid">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">ACTS AUTO</a>
+            <button class="btn btn-warning"><a class="navbar-brand">ACTS AUTO</a></button>
           </div>
       
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="{{url_for('hospital_home') }}">Home</a></li>
- 
+              <li><button class="btn btn-primary"><a href="{{url_for('hospital_home') }}">Home</a></button></li>
             </ul>
        
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>
       <section>
-    <table id="example" class="table    table-bordered" cellspacing="0" width="100%">
+    <table id="example" class="table table-bordered" cellspacing="0" width="100%">
         <thead>
             <tr class="active">
                 <th>Name </th>
@@ -61,7 +71,7 @@
           <td>{{ row.ph_no}}</td>
           <td>{{ row.take_meds}}</td>
           <td>{{ row.address}}</td>
-          <td>{{ row.currr_date}}</td>
+          <td>{{ row.currr_date}}</td> 
           </tr>
          {% endfor %}
         </tbody>

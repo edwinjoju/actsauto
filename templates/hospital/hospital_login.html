@@ -14,6 +14,7 @@
 
   <!--#manifest json file-->
   <link rel="manifest" href="static/manifest.json">
+      <script src="static/sw.js"></script>
     
   </head>
 
@@ -46,7 +47,6 @@
                 <div class="mb-3" class="col-md-12 text-center">
                   <button class="btn btn-danger" href="hospital_home.php" type="submit">Sign in</button>
                 </div>
-                <span class="reg">Already have an account? <a class="text-danger" href="{{ url_for('hospitalregister') }}">Sign Up</a></span><br>
                 <span class="reg" >Back to <a class="text-danger" href="{{ url_for('home') }}">Home</a></span>
               </form>
             </div>  

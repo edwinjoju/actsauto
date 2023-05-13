@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, session, url_for, jsonify
+from flask import Flask, render_template, request, redirect, session, url_for, jsonify,flash
 from datetime import datetime
 from createMail import sendMail
 import pymysql.cursors
+from pymysql.err import IntegrityError
 import os
 import json
 
@@ -34,7 +35,7 @@ def getMysql():
 def home():
     return render_template('index.html')
 
-#############################################USER SECTION##############################################################
+#############################################USER SECTION#####################;#########################################
 @app.route("/userlogin", methods=['GET', 'POST'])
 def userlogin():
     if request.method == 'POST' and 'user_id' in request.form and 'password' in request.form:
@@ -51,9 +52,7 @@ def userlogin():
                 session['loggedin'] = True
                 session['user_id'] = account['user_id']
                 session['password'] = account['password']
-                return redirect(
-                    'userhome'
-                )  # Redirecting to the index page with a success message
+                return redirect('userhome')  # Redirecting to the index page with a success message
             if not account:  # If the account does not exist
                 msg = 'Incorrect username / password!'
                 return render_template('user/user_login.html', msg=msg)
@@ -69,14 +68,21 @@ def userregister():
         user_id = request.form['user_id']
         email = request.form['email']
         password = request.form['password']
-        print(name)
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
+          try:
             cursor.execute(
-                'INSERT INTO userregister VALUES (%s, %s, %s, %s, %s )',
-                (name, phone, user_id, email, password))
+                'INSERT INTO userregister VALUES (%s, %s, %s, %s, %s )',(name, phone, user_id, email, password))
             mysql.commit()
             return render_template('user/user_login.html')
+          except IntegrityError as e:
+            error_message = str(e)
+            if "Duplicate entry" in error_message:
+              flash("The name or userid you entered already exists in the database.")
+            elif "Duplicate entry" in error_message and "user_id" in error_message:
+              flash("The user ID you entered already exists in the database.")
+            else:
+              flash("An error occurred while inserting the record: " + error_message)          
   return render_template('user/userregister.html')
    
 #user home
@@ -84,8 +90,11 @@ def userregister():
 def user_home():
     user_id=session['user_id']
     with mysql.cursor() as cursor:
+        d=datetime.now()  
+        currdate = d.date()
         cursor.execute("SELECT * FROM bloodpublish")
         data = cursor.fetchall()
+        cursor.execute('DELETE FROM bloodpublish WHERE %s>date',(currdate))
     with mysql.cursor() as cursor:
         cursor.execute("SELECT * from userblooddonation WHERE user_id=%s", (user_id,))
         blooddonate = cursor.fetchall()
@@ -112,7 +121,7 @@ def userbloodonation():
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
             cursor.execute(
-                'INSERT INTO userblooddonation VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+                'INSERT INTO userblooddonation (user_id, name, date, blood_group, ph_no, take_meds, address, donated, currr_date) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
                 (userid, name, dob, blood_group, ph_no, take_meds, address,
                  donated, currdate))
             mysql.commit()
@@ -135,13 +144,12 @@ def userbloodrequest():
     with mysql.cursor() as cursor:
         # Retrieving account details from the database if the username and password match
         cursor.execute(
-            'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+            'INSERT INTO bloodpublish (name,caseofblood,location,hospital,blood_group,date,bystander_name,bystander_ph,other) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
             (name, case, location, hospital, blood_group, date,
              bystander_name, bystander_ph, other))
         mysql.commit()
     return render_template('user/user_home.html')
   return render_template('user/userbloodrequest.html')
-
 
 #nearest hospital calculation
 @app.route("/nearhospital", methods=['GET', 'POST'])
@@ -150,7 +158,6 @@ def nearhospital():
         cursor.execute("SELECT * FROM hospitalregister")
         data = cursor.fetchall()
         return render_template('user/near_hospital.html', nearhospitaldata=data)
-
 
 #############################################DRIVER SECTION##############################################################
 #login for driver
@@ -220,7 +227,6 @@ def accidentdetailbackend():
             if result:
               phone = result[0]
               phone_str = phone['phone']
-          
         with mysql.cursor() as cursor:
             cursor.execute('SELECT stationmail FROM policestation WHERE stationname=%s', (station,))
             data = cursor.fetchall()
@@ -229,17 +235,20 @@ def accidentdetailbackend():
               getmail_str = json.dumps(getmail)
               print("mail option- ",getmail_str)
               sendMail(actsid,name,location,noofpeople,veh_accident,hospname,address,date,time,getmail_str,phone_str)
-
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
             cursor.execute(
-                'INSERT INTO  accidentdetail VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,%s)',
-                (actsid, name, location, noofpeople, veh_accident, hospname,
-                 address, date, time, station))
+                'INSERT INTO  accidentdetail (actsid, name, acclocation, noofpeople, vehicle, hospname,acc_det, dateacc, time, station_name) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s,%s)',(actsid, name, location, noofpeople, veh_accident, hospname,address, date, time, station))
             mysql.commit()
             return render_template('driver/driver_home.html')
 
-
+#nearest hospital calculation
+@app.route("/nearesthospitaldriver", methods=['GET', 'POST'])
+def nearesthospitaldriver():
+     with mysql.cursor() as cursor:
+        cursor.execute("SELECT * FROM hospitalregister")
+        data = cursor.fetchall()
+        return render_template('driver/near_hospital_driver.html', hospitaldriverdata=data)
 #############################################HOSPITAL SECTION##############################################################
 
 #login for hospital
@@ -290,12 +299,19 @@ def hospitalregister():
         hospital_longitude = float(request.form['hospital_longitude'])
         password = (request.form['password'])
         with mysql.cursor() as cursor:
+          try:
             cursor.execute(
                 'INSERT INTO hospitalregister VALUES (%s, %s, %s, %s,%s,%s,%s )',
                 (hospital_id, hname, hphone, hospital_location,
                  hospital_latitude, hospital_longitude, password))
             mysql.commit()
             return render_template('hospital/hospital_login.html')
+          except IntegrityError as e:
+            error_message = str(e)
+            if "Duplicate entry" in error_message:
+              flash("The hospital_id you entered already exists")
+            else:
+              flash("An error occurred while inserting the record: " + error_message)
   return render_template('hospital/hospitalregister.html')
 
 #blood donator list
@@ -314,7 +330,7 @@ def bloodrequestlist():
         cursor.execute("SELECT * FROM bloodpublish")
         data = cursor.fetchall()
         return render_template('hospital/bloodrequestlist.html',bloodrequestdata=data)
-      
+
 #blood request for hospitals  for uploading the details
 @app.route("/hospitalbloodrequest", methods=['GET', 'POST'])
 def hospitalbloodrequest():
@@ -331,7 +347,7 @@ def hospitalbloodrequest():
         with mysql.cursor() as cursor:
             # Retrieving account details from the database if the username and password match
             cursor.execute(
-                'INSERT INTO bloodpublish VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
+                'INSERT INTO bloodpublish (name,caseofblood,location,hospital,blood_group,date,bystander_name,bystander_ph,other) VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s )',
                 (name, case, location, hospital, blood_group, date,
                  bystander_name, bystander_ph, other))
             mysql.commit()
@@ -410,11 +426,18 @@ def driverregister():
         driver_name = request.form['driver_name']
         phone = int(request.form['phone'])
         with mysql.cursor() as cursor:
+          try:
             cursor.execute(
                 'INSERT INTO driverregister (driver_id, password, driver_name, phone) VALUES (%s, %s, %s, %s )',
                 (driver_id, password, driver_name, phone))
             mysql.commit()
             return render_template('admin/admin_home.html')
+          except IntegrityError as e:
+            error_message = str(e)
+            if "Duplicate entry" in error_message:
+              flash("The name or userid you entered already exists in the database.")
+            else:
+              flash("An error occurred while inserting the record: " + error_message)
   return render_template('admin/driverregister.html')
 
 ################################ Notification Section ##################################################
