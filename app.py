@@ -20,6 +20,7 @@ mysql = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor  #to convert cursor data (normal tuple) to dictionary(key-value pair)
 )
 
+#due to continuous database caling...
 def getMysql():
     return pymysql.connect(
         host='aws.connect.psdb.cloud',
@@ -35,7 +36,7 @@ def getMysql():
 def home():
     return render_template('index.html')
 
-#############################################USER SECTION#####################;#########################################
+############################################# USER SECTION ##############################################################
 @app.route("/userlogin", methods=['GET', 'POST'])
 def userlogin():
     if request.method == 'POST' and 'user_id' in request.form and 'password' in request.form:
@@ -159,7 +160,7 @@ def nearhospital():
         data = cursor.fetchall()
         return render_template('user/near_hospital.html', nearhospitaldata=data)
 
-#############################################DRIVER SECTION##############################################################
+############################################# DRIVER SECTION ##############################################################
 #login for driver
 @app.route("/driverlogin", methods=['GET', 'POST'])
 def driverlogin():
@@ -249,7 +250,7 @@ def nearesthospitaldriver():
         cursor.execute("SELECT * FROM hospitalregister")
         data = cursor.fetchall()
         return render_template('driver/near_hospital_driver.html', hospitaldriverdata=data)
-#############################################HOSPITAL SECTION##############################################################
+############################################# HOSPITAL SECTION ##############################################################
 
 #login for hospital
 @app.route("/hospitallogin", methods=['GET', 'POST'])
@@ -354,7 +355,7 @@ def hospitalbloodrequest():
             return render_template('hospital/hospital_home.html')
   return render_template('hospital/hospitalbloodrequest.html')
   
-#############################################ADMIN SECTION##############################################################
+############################################# ADMIN SECTION ##############################################################
 
 #login for admin
 @app.route("/adminlogin", methods=['GET', 'POST'])
